@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Tema a partir de un color hex
-const Color _customColor = Color(0xFFA566AF);
+const Color _customColor = Color(0xFF017F96);
 
 // Lista de temas predefinidos
 const List<Color> _colorThemes = [

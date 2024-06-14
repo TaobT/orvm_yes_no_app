@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:orvm_yes_no_app/presentation/widgets/chat/her_message.dart';
 import 'package:orvm_yes_no_app/presentation/widgets/chat/my_message.dart';
+import 'package:orvm_yes_no_app/presentation/widgets/shared/message_field_box.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -39,11 +41,12 @@ class _ChatView extends StatelessWidget {
               child: ListView.builder(
                 itemCount: 50,
                 itemBuilder: (context, index) {
-                  return const MyMessage();
+                  return (index % 2 == 0) ? const MyMessage() : const HerMessage();
                 },
+                dragStartBehavior: DragStartBehavior.down
                 )
             ),
-            Text('Mundo')
+            const MessageFieldBox()
           ],
         ),
       ),
