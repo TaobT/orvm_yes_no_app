@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:orvm_yes_no_app/domain/entities/message.dart';
+import 'package:orvm_yes_no_app/presentation/providers/chat_provider.dart';
 import 'package:orvm_yes_no_app/presentation/widgets/chat/her_message.dart';
 import 'package:orvm_yes_no_app/presentation/widgets/chat/my_message.dart';
 import 'package:orvm_yes_no_app/presentation/widgets/shared/message_field_box.dart';
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -32,6 +35,9 @@ class _ChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final chatProvider = context.watch<ChatProvider>();
+    
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -39,14 +45,23 @@ class _ChatView extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: 50,
+                controller: chatProvider.chatScrollController,
+                itemCount: chatProvider.messages.length,
                 itemBuilder: (context, index) {
-                  return (index % 2 == 0) ? const MyMessage() : const HerMessage();
+                  final message = chatProvider.messages[index];
+                  switch(message.fromWho){
+                    case FromWho.me:
+                      return MyMessage(message: message,);
+                    case FromWho.her:
+                      return HerMessage(message: message);
+                  }
                 },
                 dragStartBehavior: DragStartBehavior.down
                 )
             ),
-            const MessageFieldBox()
+            MessageFieldBox(
+              onValue: chatProvider.sendMessage
+            )
           ],
         ),
       ),

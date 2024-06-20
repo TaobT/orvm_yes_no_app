@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:orvm_yes_no_app/domain/entities/message.dart';
 
 class HerMessage extends StatelessWidget {
-  const HerMessage({super.key});
+  const HerMessage({super.key, required this.message});
+
+  final Message message;
 
 
   @override
@@ -21,14 +24,15 @@ class HerMessage extends StatelessWidget {
               bottomRight: Radius.circular(20)
               )
           ),
-          child: const Padding(
+          child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text('Hola', style: TextStyle(color: Colors.white)),
+            child: Text(message.text, style: TextStyle(color: Colors.white)),
           )
         ),
         const SizedBox(height: 5),
 
-        const _Image(),
+        // const _Image(),
+        if(message.imageUrl != null) _Image(imageUrl: message.imageUrl!),
 
         const SizedBox(height: 20)
       ],
@@ -37,7 +41,9 @@ class HerMessage extends StatelessWidget {
 }
 
 class _Image extends StatelessWidget {
-  const _Image({super.key});
+  const _Image({super.key, required this.imageUrl});
+
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +52,7 @@ class _Image extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
-      child: Image.network("https://yesno.wtf/assets/no/11-e6b930256265890554c1464973ebba55.gif",
+      child: Image.network(imageUrl,
       width: size.width * 0.5,
       height: 150,
       fit: BoxFit.cover,
